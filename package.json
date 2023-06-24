@@ -1,14 +1,17 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/DieWerkself/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/DieWerkself/frontend-project-12/actions)",
-  "main": "./frontend/src/index.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix frontend",
-    "start": "npx start-server -s ./frontend/build",
+    "start": "start-server -s ./frontend/build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd frontend && npm ci"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6"
+  }
 }
