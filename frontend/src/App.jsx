@@ -3,7 +3,7 @@ import Login from './pages/Login';
 import Main from './pages/Main';
 import PageNotFound from './pages/PageNotFound';
 
-function App() {
+const App = () => {
   return (
     <div className="d-flex flex-column h-100">
       <div>
@@ -21,6 +21,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

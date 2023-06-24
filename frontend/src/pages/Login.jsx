@@ -20,7 +20,7 @@ const Login = () => {
       password: '',
     },
     validationSchema: SignupSchema,
-    onSubmit: (values) => {
+    onSubmit: () => {
       setAuthFailed(true);
     },
   });
