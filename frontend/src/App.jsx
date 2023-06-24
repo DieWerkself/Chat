@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import Login from './pages/Login';
 import Main from './pages/Main';
 import PageNotFound from './pages/PageNotFound';

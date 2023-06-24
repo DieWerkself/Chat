@@ -1,4 +1,4 @@
-export default {
+const ruLocal = {
   translation: {
     loginForm: {
       title: 'Войти',
@@ -9,3 +9,5 @@ export default {
     },
   },
 };
+
+export default ruLocal;
