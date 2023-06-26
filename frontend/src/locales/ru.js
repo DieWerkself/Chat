@@ -1,5 +1,9 @@
 const ruLocal = {
   translation: {
+    authForm: {
+      login: 'Войти',
+      register: 'Регистрация',
+    },
     loginForm: {
       title: 'Войти',
       login: 'Ваш никнейм',
