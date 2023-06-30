@@ -1,12 +1,15 @@
 import React, { createContext, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
 import resources from './locales/index.js';
+import { store } from './store/store';
+import SocketProvider from './components/providers/SocketProvider';
 const AuthContext = createContext({});
 
-const init = async () => {
+const init = async (socket) => {
   const i18n = i18next.createInstance();
   await i18n.use(initReactI18next).init({
     resources,
@@ -14,15 +17,17 @@ const init = async () => {
   });
 
   return (
-    <React.StrictMode>
-      <BrowserRouter>
+    // <React.StrictMode>
+    <BrowserRouter>
+      <Provider store={store}>
         <I18nextProvider i18n={i18n}>
-          <AuthContext.Provider value={''}>
+          <SocketProvider socket={socket}>
             <App />
-          </AuthContext.Provider>
+          </SocketProvider>
         </I18nextProvider>
-      </BrowserRouter>
-    </React.StrictMode>
+      </Provider>
+    </BrowserRouter>
+    // </React.StrictMode>
   );
 };
 

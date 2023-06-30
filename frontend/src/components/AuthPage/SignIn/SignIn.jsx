@@ -28,8 +28,9 @@ const SignIn = () => {
     onSubmit: async (data) => {
       try {
         const response = await axios.post('/api/v1/login', data);
-        const { token } = response.data;
+        const { token, username } = response.data;
         localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
         setAuthFailed(false);
         setAuthUser(true);
         navigate('/');

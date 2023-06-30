@@ -18,25 +18,29 @@ const AuthWrap = (Component) => () => {
   });
 
   return (
-    <div className="col-12 col-md-8 col-xxl-6">
-      <ul className="nav nav-tabs nav-fill">
-        <li onClick={handlerActivePage} className="nav-item">
-          <NavLink className={activeTab} id="login" to="/login">
-            {t('authForm.login')}
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            onClick={handlerActivePage}
-            className={activeTab}
-            id="register"
-            to="/register"
-          >
-            {t('authForm.register')}
-          </NavLink>
-        </li>
-      </ul>
-      <Component />
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <ul className="nav nav-tabs nav-fill">
+            <li onClick={handlerActivePage} className="nav-item">
+              <NavLink className={activeTab} id="login" to="/login">
+                {t('authForm.login')}
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                onClick={handlerActivePage}
+                className={activeTab}
+                id="register"
+                to="/register"
+              >
+                {t('authForm.register')}
+              </NavLink>
+            </li>
+          </ul>
+          <Component />
+        </div>
+      </div>
     </div>
   );
 };
