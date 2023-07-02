@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { AuthContext } from '../../../App';
-import AuthWrap from '../../../wrapper/AuthWrap';
+import AuthWrap from '../../../wrapper/AuthTabsWrap';
 
 const loginSchema = Yup.object().shape({
   username: Yup.string().required('Required'),
@@ -29,8 +29,7 @@ const SignIn = () => {
       try {
         const response = await axios.post('/api/v1/login', data);
         const { token, username } = response.data;
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', username);
+        localStorage.setItem('user', JSON.stringify({ token, username }));
         setAuthFailed(false);
         setAuthUser(true);
         navigate('/');
@@ -54,6 +53,8 @@ const SignIn = () => {
               onChange={formik.handleChange}
               value={formik.values.username}
               isInvalid={isAuthFailed}
+              autoComplete="username"
+              autoFocus
             />
             <Form.Label htmlFor="username">{t('loginForm.login')}</Form.Label>
           </Form.Group>
@@ -67,6 +68,7 @@ const SignIn = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
               isInvalid={isAuthFailed}
+              autoComplete="current-password"
             />
             <Form.Label htmlFor="password">
               {t('loginForm.password')}

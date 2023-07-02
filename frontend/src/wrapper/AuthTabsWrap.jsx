@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 const currentPage = window.location.pathname.substring(1);
 
-const AuthWrap = (Component) => () => {
+const AuthTabsWrap = (Component) => () => {
   const [authPage, setAuthPage] = useState(currentPage);
   const { t } = useTranslation();
 
@@ -45,4 +45,4 @@ const AuthWrap = (Component) => () => {
   );
 };
 
-export default AuthWrap;
+export default AuthTabsWrap;

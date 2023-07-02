@@ -1,38 +1,119 @@
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
 import cn from 'classnames';
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import { open } from '../../../store/modalSlice';
 
 const Channels = ({ channels, handleChannelId, currentId }) => {
+  const dispatch = useDispatch();
+
+  const handleDataModal = (data) => {
+    dispatch(open(data));
+  };
+
   const renderChannels = () => {
-    // console.log(id);
-    const channelsList = channels.map(({ id, name }) => {
-      const channelButtonStyles = cn({
-        'w-100': true,
-        'rounded-0': true,
-        'text-start': true,
-        btn: true,
-        'btn-secondary': currentId === id,
+    const channelsUnremovableList = channels
+      .filter(({ removable }) => !removable)
+      .map(({ id, name }) => {
+        const channelButtonStyles = cn({
+          'w-100': true,
+          'rounded-0': true,
+          'text-start': true,
+          btn: true,
+          'btn-secondary': currentId === id,
+        });
+
+        return (
+          <li key={id} className="nav-item w-100">
+            <button
+              type="button"
+              onClick={() => handleChannelId(id)}
+              className={channelButtonStyles}
+            >
+              <span className="me-1">#</span>
+              {name}
+            </button>
+          </li>
+        );
       });
 
-      return (
-        <li key={id} className="nav-item w-100">
-          <button
-            type="button"
-            onClick={() => handleChannelId(id)}
-            className={channelButtonStyles}
-          >
-            <span className="me-1">#</span>
-            {name}
-          </button>
-        </li>
-      );
-    });
+    const channelsRemovableList = channels
+      .filter(({ removable }) => removable)
+      .map(({ id, name }) => {
+        const channelButtonStyles = cn({
+          'w-100': true,
+          'rounded-0': true,
+          'text-start': true,
+          'text-truncate': true,
+          'btn-secondary': currentId === id,
+        });
+
+        const channelArrowStyles = cn({
+          'flex-grow-0': true,
+          'btn-secondary': currentId === id,
+        });
+
+        return (
+          <li key={id} className="nav-item w-100">
+            <Dropdown
+              as={ButtonGroup}
+              className="d-flex"
+              onClick={() => handleChannelId(id)}
+            >
+              <Button variant="" className={channelButtonStyles}>
+                <span className="me-1">#</span>
+                {name}
+              </Button>
+
+              <Dropdown.Toggle
+                split
+                variant=""
+                className={channelArrowStyles}
+                id="dropdown-split-basic"
+                title={name}
+              >
+                <span className="visually-hidden">Управление каналом</span>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={() =>
+                    handleDataModal({
+                      id,
+                      modalName: 'delete',
+                    })
+                  }
+                  href="#"
+                >
+                  Удалить
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    handleDataModal({
+                      id,
+                      name,
+                      modalName: 'update',
+                    })
+                  }
+                  href="#"
+                >
+                  Переименовать
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </li>
+        );
+      });
 
     return (
       <ul
         id="channels-box"
         className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
       >
-        {channelsList}
+        {channelsUnremovableList}
+        {channelsRemovableList}
       </ul>
     );
   };
@@ -43,6 +124,11 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
         <b>Каналы</b>
         <button
           type="button"
+          onClick={() =>
+            handleDataModal({
+              modalName: 'add',
+            })
+          }
           className="p-0 text-primary btn btn-group-vertical"
         >
           <svg

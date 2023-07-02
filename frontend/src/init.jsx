@@ -6,7 +6,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
 import resources from './locales/index.js';
 import { store } from './store/store';
-import SocketProvider from './components/providers/SocketProvider';
+import SocketProvider from './components/Providers/SocketProvider';
 const AuthContext = createContext({});
 
 const init = async (socket) => {
