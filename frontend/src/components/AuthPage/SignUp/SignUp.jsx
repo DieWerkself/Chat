@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Card } from 'react-bootstrap';
@@ -7,7 +8,6 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { AuthContext } from '../../Providers/AuthProvider';
 import AuthWrap from '../../../wrapper/AuthTabsWrap';
-import { toast } from 'react-toastify';
 import apiRoutes from '../../../routes/routes';
 
 const SignUp = () => {
@@ -27,7 +27,7 @@ const SignUp = () => {
       .required(t('errors.required')),
     confrimPassword: Yup.string().oneOf(
       [Yup.ref('password'), null],
-      t('errors.matchPassword')
+      t('errors.matchPassword'),
     ),
   });
 
@@ -69,11 +69,10 @@ const SignUp = () => {
           <h1 className="text-center mb-4">{t('registerForm.title')}</h1>
           <Form.Group className="form-floating mb-4">
             <Form.Control
-              type="login"
               name="username"
               id="username"
               className="form-control"
-              placeholder="username"
+              placeholder={t('registerForm.login')}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.username}
@@ -97,7 +96,7 @@ const SignUp = () => {
               type="password"
               id="Password"
               className="form-control"
-              placeholder="password"
+              placeholder={t('registerForm.password')}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.password}
@@ -120,7 +119,7 @@ const SignUp = () => {
               type="password"
               id="confrimPassword"
               className="form-control"
-              placeholder="confrimPassword"
+              placeholder={t('registerForm.confrimPassword')}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.confrimPassword}
@@ -131,7 +130,7 @@ const SignUp = () => {
                   formik.touched.confrimPassword)
               }
             />
-            <Form.Label htmlFor="password">
+            <Form.Label htmlFor="confrimPassword">
               {t('registerForm.confrimPassword')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">
