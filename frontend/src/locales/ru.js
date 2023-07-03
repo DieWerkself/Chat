@@ -11,7 +11,7 @@ const ruLocal = {
       title: 'Регистрация',
       login: 'Имя пользователя',
       password: 'Пароль',
-      confrimPassword: 'Подтвердить пароль',
+      confrimPassword: 'Подтвердите пароль',
       send: 'Зарегистрироваться',
       incorrect: 'Неверные имя пользователя или пароль',
     },

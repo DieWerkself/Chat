@@ -77,8 +77,7 @@ const SignUp = () => {
               onChange={formik.handleChange}
               value={formik.values.username}
               isInvalid={
-                isUserExist ||
-                (formik.errors.username && formik.touched.username)
+                isUserExist || (formik.errors.username && formik.touched.username)
               }
               autoComplete="username"
               autoFocus
@@ -102,8 +101,7 @@ const SignUp = () => {
               value={formik.values.password}
               autoComplete="new-password"
               isInvalid={
-                isUserExist ||
-                (formik.errors.password && formik.touched.password)
+                isUserExist || (formik.errors.password && formik.touched.password)
               }
             />
             <Form.Label htmlFor="password">
@@ -125,9 +123,7 @@ const SignUp = () => {
               value={formik.values.confrimPassword}
               autoComplete="new-password"
               isInvalid={
-                isUserExist ||
-                (formik.errors.confrimPassword &&
-                  formik.touched.confrimPassword)
+                isUserExist || (formik.errors.confrimPassword && formik.touched.confrimPassword)
               }
             />
             <Form.Label htmlFor="confrimPassword">
@@ -140,13 +136,13 @@ const SignUp = () => {
           <Button
             type="submit"
             disabled={
-              formik.errors.confrimPassword ||
-              !formik.values.confrimPassword ||
-              formik.errors.password ||
-              !formik.values.password ||
-              formik.errors.username ||
-              !formik.values.username ||
-              sendingForm
+              formik.errors.confrimPassword
+              || !formik.values.confrimPassword
+              || formik.errors.password
+              || !formik.values.password
+              || formik.errors.username
+              || !formik.values.username
+              || sendingForm
             }
             className="w-100 mb-3"
             variant="outline-primary"
