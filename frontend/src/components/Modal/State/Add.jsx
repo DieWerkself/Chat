@@ -1,5 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -8,20 +10,23 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { channelsSelector } from '../../../store/channelsSlice';
 import { SocketContext } from '../../Providers/SocketProvider';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
 const ModalAddChannel = ({ onHide }) => {
   const { addNewChannel } = useContext(SocketContext);
   const channels = useSelector(channelsSelector.selectAll);
   const { t } = useTranslation();
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const addChannelSchema = Yup.object().shape({
-    channelName: Yup.string()
+    name: Yup.string()
       .required(t('errors.required'))
       .notOneOf(
         channels.map(({ name }) => name),
-        t('errors.uniqueChannel')
+        t('errors.uniqueChannel'),
       )
       .min(3, t('errors.range'))
       .max(20, t('errors.range')),
@@ -29,14 +34,14 @@ const ModalAddChannel = ({ onHide }) => {
 
   const formik = useFormik({
     initialValues: {
-      channelName: '',
+      name: '',
     },
     validationSchema: addChannelSchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (data) => {
       try {
-        addNewChannel(data.channelName);
+        addNewChannel(data.name);
         formik.resetForm();
         toast.success(t('notify.addChannel'));
         onHide();
@@ -59,20 +64,20 @@ const ModalAddChannel = ({ onHide }) => {
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Control
-              type="text"
               className="mb-2"
-              id="channelName"
-              name="channelName"
+              ref={inputRef}
+              id="name"
+              name="name"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.channelName}
+              value={formik.values.name}
               isInvalid={
-                formik.errors.channelName && formik.touched.channelName
+                formik.errors.name && formik.touched.name
               }
               autoFocus
             />
-            <Form.Label hidden htmlFor="channelName">
-              {t('modals.add')}
+            <Form.Label class="visually-hidden" htmlFor="name">
+              {t('modals.name')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.channelName}

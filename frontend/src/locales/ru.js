@@ -30,6 +30,7 @@ const ruLocal = {
       message_many: '{{count}} сообщений',
     },
     modals: {
+      name: 'Имя канала',
       add: 'Добавить канал',
       delete: 'Удалить канал',
       rename: 'Переименовать канал',

@@ -1,5 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -8,18 +10,21 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { channelsSelector } from '../../../store/channelsSlice';
 import { SocketContext } from '../../Providers/SocketProvider';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 const ModalUpdateChannel = ({ id, name, onHide }) => {
   const { renameChannel } = useContext(SocketContext);
   const channels = useSelector(channelsSelector.selectAll);
   const { t } = useTranslation();
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const renameChannelSchema = Yup.object().shape({
     channelName: Yup.string()
       .required('errors.required')
-      .notOneOf(channels.map(({ name }) => name))
+      .notOneOf(channels.map((channel) => channel.name), t('errors.uniqueChannel'))
       .min(3, 'errors.rangeLetter')
       .max(20, 'errors.rangeLetter'),
   });
@@ -56,6 +61,7 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
+              ref={inputRef}
               className="mb-2"
               id="channelName"
               name="channelName"
@@ -65,10 +71,9 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
               isInvalid={
                 formik.errors.channelName && formik.touched.channelName
               }
-              autoFocus
             />
-            <Form.Label hidden htmlFor="channelName">
-              {t('modals.rename')}
+            <Form.Label class="visually-hidden" htmlFor="channelName">
+              {t('modals.name')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.channelName}

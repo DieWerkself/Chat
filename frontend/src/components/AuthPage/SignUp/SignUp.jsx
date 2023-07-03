@@ -85,7 +85,7 @@ const SignUp = () => {
             <Form.Label htmlFor="username">
               {t('registerForm.login')}
             </Form.Label>
-            <Form.Control.Feedback type="invalid" tooltip>
+            <Form.Control.Feedback type="invalid">
               {formik.errors.username}
             </Form.Control.Feedback>
           </Form.Group>
@@ -107,7 +107,7 @@ const SignUp = () => {
             <Form.Label htmlFor="password">
               {t('registerForm.password')}
             </Form.Label>
-            <Form.Control.Feedback type="invalid" tooltip>
+            <Form.Control.Feedback type="invalid">
               {formik.errors.password}
             </Form.Control.Feedback>
           </Form.Group>
@@ -128,7 +128,7 @@ const SignUp = () => {
             <Form.Label htmlFor="confrimPassword">
               {t('registerForm.confrimPassword')}
             </Form.Label>
-            <Form.Control.Feedback type="invalid" tooltip>
+            <Form.Control.Feedback type="invalid">
               {formik.errors.confrimPassword ?? t('errors.userExist')}
             </Form.Control.Feedback>
           </Form.Group>

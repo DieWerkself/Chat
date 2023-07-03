@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import { SocketContext } from '../../Providers/SocketProvider';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 const ModalDeleteChannel = ({ id, onHide }) => {
   const { deleteChannel } = useContext(SocketContext);
@@ -15,7 +15,7 @@ const ModalDeleteChannel = ({ id, onHide }) => {
       deleteChannel(id);
       toast.success(t('notify.deleteChannel'));
       onHide();
-    } catch {
+    } catch (error) {
       if (error.isAxiosError) {
         toast.error(t('notify.networkError'));
       }
