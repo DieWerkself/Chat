@@ -74,7 +74,6 @@ const ModalAddChannel = ({ onHide }) => {
               isInvalid={
                 formik.errors.name && formik.touched.name
               }
-              autoFocus
             />
             <Form.Label class="visually-hidden" htmlFor="name">
               {t('modals.name')}
