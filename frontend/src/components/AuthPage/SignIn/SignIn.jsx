@@ -89,9 +89,7 @@ const SignIn = () => {
           </Form.Group>
           <Button
             type="submit"
-            disabled={
-              !formik.values.username || !formik.values.password || sendingForm
-            }
+            disabled={sendingForm}
             className="w-100 mb-3"
             variant="outline-primary"
             style={{ height: 50 }}

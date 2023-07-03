@@ -134,15 +134,7 @@ const SignUp = () => {
           </Form.Group>
           <Button
             type="submit"
-            disabled={
-              formik.errors.confrimPassword
-              || !formik.values.confrimPassword
-              || formik.errors.password
-              || !formik.values.password
-              || formik.errors.username
-              || !formik.values.username
-              || sendingForm
-            }
+            disabled={sendingForm}
             className="w-100 mb-3"
             variant="outline-primary"
             style={{ height: 50 }}
