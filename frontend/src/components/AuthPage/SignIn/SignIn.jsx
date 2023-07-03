@@ -59,7 +59,7 @@ const SignIn = () => {
               type="login"
               id="username"
               className="form-control"
-              placeholder="username"
+              placeholder={t('loginForm.login')}
               onChange={formik.handleChange}
               value={formik.values.username}
               isInvalid={isAuthFailed}
@@ -72,9 +72,9 @@ const SignIn = () => {
             <Form.Control
               name="password"
               type="password"
-              id="Password"
+              id="password"
               className="form-control"
-              placeholder="password"
+              placeholder={t('loginForm.password')}
               onChange={formik.handleChange}
               value={formik.values.password}
               isInvalid={isAuthFailed}
