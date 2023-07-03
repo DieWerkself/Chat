@@ -50,9 +50,9 @@ const ruLocal = {
       mainPage: 'на главную страницу',
     },
     notify: {
-      addChannel: 'Канал добавлен!',
-      deleteChannel: 'Канал удален!',
-      renameChannel: 'Канал переименован!',
+      addChannel: 'Канал создан',
+      deleteChannel: 'Канал удален',
+      renameChannel: 'Канал переименован',
       login: 'Успешный вход!',
       registration: 'Успешная регистрация!',
       networkError: 'Ошибка сети',
