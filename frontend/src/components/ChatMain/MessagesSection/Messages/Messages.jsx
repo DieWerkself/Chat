@@ -2,7 +2,7 @@ import React from 'react';
 import filter from 'leo-profanity';
 
 const Messages = ({ currentChannelChat }) => {
-  filter.loadDictionary('ru');
+  filter.loadDictionary();
   return (
     <>
       {currentChannelChat.map(({ message, id, username }) => (
@@ -12,7 +12,8 @@ const Messages = ({ currentChannelChat }) => {
           className="chat-messages overflow-auto px-5 "
         >
           <div className="text-break mb-2">
-            <b>{username}</b>: {filter.clean(message)}
+            <b>{username}</b>
+            : {filter.clean(message)}
           </div>
         </div>
       ))}
