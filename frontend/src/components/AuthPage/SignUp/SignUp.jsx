@@ -93,7 +93,7 @@ const SignUp = () => {
             <Form.Control
               name="password"
               type="password"
-              id="Password"
+              id="password"
               className="form-control"
               placeholder={t('registerForm.password')}
               onBlur={formik.handleBlur}
