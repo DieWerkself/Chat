@@ -69,7 +69,8 @@ const SignUp = () => {
           <h1 className="text-center mb-4">{t('registerForm.title')}</h1>
           <Form.Group className="form-floating mb-4">
             <Form.Control
-              type="username"
+              type="login"
+              name="username"
               id="username"
               className="form-control"
               placeholder="username"
