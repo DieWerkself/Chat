@@ -118,12 +118,11 @@ const SignUp = () => {
               id="confrimPassword"
               className="form-control"
               placeholder={t('registerForm.confrimPassword')}
-              onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.confrimPassword}
               autoComplete="new-password"
               isInvalid={
-                isUserExist || (formik.errors.confrimPassword && formik.touched.confrimPassword)
+                isUserExist || formik.errors.confrimPassword
               }
             />
             <Form.Label htmlFor="confrimPassword">
