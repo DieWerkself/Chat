@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Card } from 'react-bootstrap';
@@ -6,7 +7,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import AuthWrap from '../../../wrapper/AuthTabsWrap';
-import { toast } from 'react-toastify';
 import { AuthContext } from '../../Providers/AuthProvider';
 import apiRoutes from '../../../routes/routes';
 
@@ -39,7 +39,7 @@ const SignIn = () => {
         setAuthUser(true);
         navigate('/');
       } catch (error) {
-        if (error.isAxiosError) {
+        if (error.isAxiosError && error.response.status !== 401) {
           toast.error(t('notify.networkError'));
         }
         setAuthFailed(true);

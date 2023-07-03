@@ -5,16 +5,20 @@ import { useTranslation } from 'react-i18next';
 
 const currentPage = window.location.pathname.substring(1);
 
-const AuthTabsWrap = (Component) => () => {
+const AuthTabsWrap = (Component) => function HOC() {
   const [authPage, setAuthPage] = useState(currentPage);
   const { t } = useTranslation();
 
   const handlerActivePage = (e) => setAuthPage(e.target.id);
 
-  const activeTab = cn({
-    'nav-link': true,
+  const activeLoginTab = cn({
+    'nav-item': true,
     active: authPage === 'login',
-    active: authPage === 'registration',
+  });
+
+  const activeSignupTab = cn({
+    'nav-item': true,
+    active: authPage === 'signup',
   });
 
   return (
@@ -22,17 +26,17 @@ const AuthTabsWrap = (Component) => () => {
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-12 col-md-8 col-xxl-6">
           <ul className="nav nav-tabs nav-fill">
-            <li onClick={handlerActivePage} className="nav-item">
-              <NavLink className={activeTab} id="login" to="/login">
+            <li onClick={handlerActivePage} className={activeLoginTab}>
+              <NavLink className="nav-link" id="login" to="/login">
                 {t('loginForm.title')}
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className={activeSignupTab}>
               <NavLink
                 onClick={handlerActivePage}
-                className={activeTab}
-                id="register"
-                to="/register"
+                className="nav-link"
+                id="signup"
+                to="/signup"
               >
                 {t('registerForm.title')}
               </NavLink>
