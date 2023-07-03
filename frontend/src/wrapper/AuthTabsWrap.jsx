@@ -24,7 +24,7 @@ const AuthTabsWrap = (Component) => () => {
           <ul className="nav nav-tabs nav-fill">
             <li onClick={handlerActivePage} className="nav-item">
               <NavLink className={activeTab} id="login" to="/login">
-                {t('authForm.login')}
+                {t('loginForm.title')}
               </NavLink>
             </li>
             <li className="nav-item">
@@ -34,7 +34,7 @@ const AuthTabsWrap = (Component) => () => {
                 id="register"
                 to="/register"
               >
-                {t('authForm.register')}
+                {t('registerForm.title')}
               </NavLink>
             </li>
           </ul>

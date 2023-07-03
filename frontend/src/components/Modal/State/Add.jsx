@@ -8,33 +8,42 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { channelsSelector } from '../../../store/channelsSlice';
 import { SocketContext } from '../../Providers/SocketProvider';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const ModalAddChannel = ({ onHide }) => {
   const { addNewChannel } = useContext(SocketContext);
   const channels = useSelector(channelsSelector.selectAll);
-  const SignupSchema = Yup.object().shape({
+  const { t } = useTranslation();
+
+  const addChannelSchema = Yup.object().shape({
     channelName: Yup.string()
-      .required('errors.required')
-      .notOneOf(channels.map(({ name }) => name))
-      .min(3, 'errors.rangeLetter')
-      .max(20, 'errors.rangeLetter'),
+      .required(t('errors.required'))
+      .notOneOf(
+        channels.map(({ name }) => name),
+        t('errors.uniqueChannel')
+      )
+      .min(3, t('errors.range'))
+      .max(20, t('errors.range')),
   });
 
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
-    validationSchema: SignupSchema,
+    validationSchema: addChannelSchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (data) => {
       try {
-        console.log(data);
         addNewChannel(data.channelName);
-        formik.values.channelName = '';
+        formik.resetForm();
+        toast.success(t('notify.addChannel'));
         onHide();
       } catch (error) {
-        console.log(error);
+        if (error.isAxiosError) {
+          toast.error(t('notify.networkError'));
+        }
       }
     },
   });
@@ -43,7 +52,7 @@ const ModalAddChannel = ({ onHide }) => {
     <>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Добавить канал
+          {t('modals.add')}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -63,17 +72,17 @@ const ModalAddChannel = ({ onHide }) => {
               autoFocus
             />
             <Form.Label hidden htmlFor="channelName">
-              Добавить канал
+              {t('modals.add')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.channelName}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button className="me-2" variant="secondary" onClick={onHide}>
-                Отменить
+                {t('modals.buttonCancel')}
               </Button>
               <Button type="submit" variant="primary">
-                Отправить
+                {t('modals.buttonSend')}
               </Button>
             </div>
           </Form.Group>

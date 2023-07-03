@@ -1,9 +1,5 @@
 const ruLocal = {
   translation: {
-    authForm: {
-      login: 'Войти',
-      register: 'Регистрация',
-    },
     loginForm: {
       title: 'Войти',
       login: 'Ваш никнейм',
@@ -19,13 +15,55 @@ const ruLocal = {
       send: 'Зарегистрироваться',
       incorrect: 'Неверные имя пользователя или пароль',
     },
+    channels: {
+      title: 'Каналы',
+      manageChannel: 'Управление каналом',
+      deleteChannel: 'Удалить',
+      renameChannel: 'Переименовать',
+    },
+    messages: {
+      newMessage: 'Новое сообщение',
+      placeholder: 'Введите сообщение...',
+      send: 'Отправить',
+      message_one: '{{count}} сообщение',
+      message_few: '{{count}} сообщения',
+      message_many: '{{count}} сообщений',
+    },
+    modals: {
+      add: 'Добавить канал',
+      delete: 'Удалить канал',
+      rename: 'Переименовать канал',
+      deleteConfrim: 'Уверены?',
+      buttonCancel: 'Отменить',
+      buttonSend: 'Отправить',
+      buttonClose: 'Закрыть',
+      buttonDelete: 'Удалить',
+    },
+    navbar: {
+      title: 'Hexlet Chat',
+      logout: 'Выйти',
+    },
     pageNotFound: {
       title: 'Страница не найдена',
-      login: 'Имя пользователя',
-      password: 'Пароль',
-      confrimPassword: 'Подтвердить пароль',
-      send: 'Зарегистрироваться',
-      incorrect: 'Неверные имя пользователя или пароль',
+      variant: 'Но вы можете перейти ',
+      mainPage: 'на главную страницу',
+    },
+    notify: {
+      addChannel: 'Канал добавлен!',
+      deleteChannel: 'Канал удален!',
+      renameChannel: 'Канал переименован!',
+      login: 'Успешный вход!',
+      registration: 'Успешная регистрация!',
+      networkError: 'Ошибка сети',
+    },
+    errors: {
+      required: 'Обязательное поле',
+      login: 'Неверные имя пользователя или пароль',
+      range: 'От 3 до 20 символов',
+      rangePassword: 'Не менее 6 символов',
+      matchPassword: 'Пароли должны совпадать',
+      userExist: 'Такой пользователь уже существует',
+      uniqueChannel: 'Должно быть уникальным',
     },
   },
 };

@@ -5,19 +5,22 @@ import { Button, Form, Card } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { AuthContext } from '../../../App';
 import AuthWrap from '../../../wrapper/AuthTabsWrap';
-
-const loginSchema = Yup.object().shape({
-  username: Yup.string().required('Required'),
-  password: Yup.string().required('Required'),
-});
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../Providers/AuthProvider';
+import apiRoutes from '../../../routes/routes';
 
 const SignIn = () => {
   const [isAuthFailed, setAuthFailed] = useState(false);
+  const [sendingForm, setSendingForm] = useState(false);
   const { setAuthUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const loginSchema = Yup.object().shape({
+    username: Yup.string().required(t('errors.required')),
+    password: Yup.string().required(t('errors.required')),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -26,15 +29,21 @@ const SignIn = () => {
     },
     validationSchema: loginSchema,
     onSubmit: async (data) => {
+      setSendingForm(true);
       try {
-        const response = await axios.post('/api/v1/login', data);
+        const response = await axios.post(apiRoutes.loginPath(), data);
         const { token, username } = response.data;
         localStorage.setItem('user', JSON.stringify({ token, username }));
+        toast.success(t('notify.login'));
         setAuthFailed(false);
         setAuthUser(true);
         navigate('/');
       } catch (error) {
+        if (error.isAxiosError) {
+          toast.error(t('notify.networkError'));
+        }
         setAuthFailed(true);
+        setSendingForm(false);
       }
     },
   });
@@ -73,12 +82,15 @@ const SignIn = () => {
             <Form.Label htmlFor="password">
               {t('loginForm.password')}
             </Form.Label>
-            <Form.Control.Feedback type="invalid" tooltip>
-              {t('loginForm.incorrect')}
+            <Form.Control.Feedback type="invalid">
+              {t('errors.login')}
             </Form.Control.Feedback>
           </Form.Group>
           <Button
             type="submit"
+            disabled={
+              !formik.values.username || !formik.values.password || sendingForm
+            }
             className="w-100 mb-3"
             variant="outline-primary"
             style={{ height: 50 }}

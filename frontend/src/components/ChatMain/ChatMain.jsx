@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CirclesWithBar } from 'react-loader-spinner';
-import { AuthContext } from '../../App';
 import axios from 'axios';
 import {
   addChannels,
@@ -10,10 +9,12 @@ import {
 } from '../../store/channelsSlice';
 import { addMessages, messagesSelector } from '../../store/messagesSlice';
 import Channels from './Channels/Channels';
-import Chat from './Chat/Chat';
+import Chat from './MessagesSection/MessagesSection';
 import AuthRedirect from '../../wrapper/AuthRedirect';
+import { toast } from 'react-toastify';
+import apiRoutes from '../../routes/routes';
 
-const Main = () => {
+const ChatMain = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelector.selectAll);
@@ -26,16 +27,18 @@ const Main = () => {
     const getData = async () => {
       const token = JSON.parse(localStorage.user).token;
       try {
-        const res = await axios.get('/api/v1/data', {
+        const response = await axios.get(apiRoutes.dataPath(), {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(res.data);
-        dispatch(addChannels(res.data.channels));
-        dispatch(addMessages(res.data.messages));
-        dispatch(setActiveChannelId(res.data.currentChannelId));
+        const { channels, messages, currentChannelId } = response.data;
+        dispatch(addChannels(channels));
+        dispatch(addMessages(messages));
+        dispatch(setActiveChannelId(currentChannelId));
         setIsLoading(false);
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        if (error.isAxiosError) {
+          toast.error(t('notify.networkError'));
+        }
       }
     };
     getData();
@@ -82,4 +85,4 @@ const Main = () => {
   );
 };
 
-export default AuthRedirect(Main);
+export default AuthRedirect(ChatMain);

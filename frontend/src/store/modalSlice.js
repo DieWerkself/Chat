@@ -14,8 +14,6 @@ const modalSlice = createSlice({
       const data = action.payload;
       state.data = data;
       state.isModalShow = true;
-      console.log(state.data);
-      console.log(state.isModalShow);
     },
     close: (state) => {
       state.isModalShow = false;

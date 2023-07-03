@@ -8,11 +8,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { channelsSelector } from '../../../store/channelsSlice';
 import { SocketContext } from '../../Providers/SocketProvider';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const ModalUpdateChannel = ({ id, name, onHide }) => {
   const { renameChannel } = useContext(SocketContext);
   const channels = useSelector(channelsSelector.selectAll);
-  const SignupSchema = Yup.object().shape({
+  const { t } = useTranslation();
+
+  const renameChannelSchema = Yup.object().shape({
     channelName: Yup.string()
       .required('errors.required')
       .notOneOf(channels.map(({ name }) => name))
@@ -24,17 +28,18 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
     initialValues: {
       channelName: name,
     },
-    validationSchema: SignupSchema,
+    validationSchema: renameChannelSchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (data) => {
       try {
-        console.log(data);
         renameChannel(id, data.channelName);
-        formik.values.channelName = '';
+        toast.success(t('notify.renameChannel'));
         onHide();
       } catch (error) {
-        console.log(error);
+        if (error.isAxiosError) {
+          toast.error(t('notify.networkError'));
+        }
       }
     },
   });
@@ -43,7 +48,7 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
     <>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Переименовать канал
+          {t('modals.rename')}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -63,17 +68,17 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
               autoFocus
             />
             <Form.Label hidden htmlFor="channelName">
-              Переименовать канал
+              {t('modals.rename')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.channelName}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button className="me-2" variant="secondary" onClick={onHide}>
-                Close
+                {t('modals.buttonCancel')}
               </Button>
               <Button type="submit" variant="primary">
-                Save Changes
+                {t('modals.buttonSend')}
               </Button>
             </div>
           </Form.Group>

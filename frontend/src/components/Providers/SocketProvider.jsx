@@ -57,6 +57,7 @@ const SocketProvider = ({ socket, children }) => {
   const renameChannel = (id, name) => {
     socket.emit('renameChannel', { id, name });
   };
+
   return (
     <SocketContext.Provider
       value={{ addNewMessage, addNewChannel, deleteChannel, renameChannel }}

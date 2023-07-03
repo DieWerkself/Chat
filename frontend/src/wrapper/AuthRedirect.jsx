@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../App';
+import { AuthContext } from '../components/Providers/AuthProvider';
 
 const AuthRedirect = (Component) => () => {
-  const { authUser } = useContext(AuthContext);
-  const isUserAuth = () => authUser || localStorage.user;
+  const { isUserAuth } = useContext(AuthContext);
   return (
     <>{!isUserAuth() ? <Navigate replace to="/login" /> : <Component />}</>
   );

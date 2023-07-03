@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../App';
+import { useTranslation } from 'react-i18next';
+import { AuthContext } from '../Providers/AuthProvider';
 
 const Navbar = () => {
-  const { authUser, setAuthUser } = useContext(AuthContext);
+  const { isUserAuth, setAuthUser } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const isUserAuth = () => authUser || localStorage.user;
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -17,16 +17,15 @@ const Navbar = () => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <NavLink className="navbar-brand" to="/">
-          Hexlet Chat
+          {t('navbar.title')}
         </NavLink>
-        {/* <NavLink to="/login">Login</NavLink> */}
         {isUserAuth() && (
           <button
             type="button"
             onClick={handleLogout}
             className="btn btn-primary"
           >
-            Выйти
+            {t('navbar.logout')}
           </button>
         )}
       </div>

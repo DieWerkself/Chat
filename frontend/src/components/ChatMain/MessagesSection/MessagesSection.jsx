@@ -1,11 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { SocketContext } from '../../Providers/SocketProvider';
+import 'react-toastify/dist/ReactToastify.css';
 import Messages from './Messages/Messages';
 import MessageInputField from './MessageInputField/MessageInputField';
 import Modal from '../../Modal/Modal';
+import { useTranslation } from 'react-i18next';
 
-const Chat = ({ messages, channels, currentChannelId }) => {
+const MessagesSection = ({ messages, channels, currentChannelId }) => {
   const [currentMessage, setCurrentMessage] = useState('');
+  const { t } = useTranslation();
   const { addNewMessage } = useContext(SocketContext);
   const currentChannelChat = messages.filter(
     ({ channelId }) => channelId === currentChannelId
@@ -18,7 +21,6 @@ const Chat = ({ messages, channels, currentChannelId }) => {
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    console.log(currentChannelId);
     const username = JSON.parse(localStorage.user).username;
     addNewMessage(currentMessage, username, currentChannelId);
     setCurrentMessage('');
@@ -32,7 +34,7 @@ const Chat = ({ messages, channels, currentChannelId }) => {
             <b># {channel.name}</b>
           </p>
           <span className="text-muted">
-            {currentChannelChat.length} сообщений
+            {t('messages.message', { count: currentChannelChat.length })}
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
@@ -49,4 +51,4 @@ const Chat = ({ messages, channels, currentChannelId }) => {
   );
 };
 
-export default Chat;
+export default MessagesSection;

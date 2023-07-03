@@ -7,9 +7,7 @@ import { close } from '../../store/modalSlice';
 import Modal from 'react-bootstrap/Modal';
 
 const openModal = () => {
-  const modalData = useSelector((state) => state.modal.data);
-  const modalName = useSelector((state) => state.modal.data.modalName);
-  const isModalShow = useSelector((state) => state.modal.isModalShow);
+  const { data, isModalShow } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
   const modals = {
@@ -22,7 +20,7 @@ const openModal = () => {
     dispatch(close());
   };
 
-  const CurrentModal = modals[modalName];
+  const CurrentModal = modals[data.modalName];
 
   return (
     <>
@@ -33,7 +31,7 @@ const openModal = () => {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
-          <CurrentModal {...modalData} onHide={onHide} />
+          <CurrentModal {...data} onHide={onHide} />
         </Modal>
       )}
     </>

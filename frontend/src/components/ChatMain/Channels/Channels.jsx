@@ -5,9 +5,11 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import { open } from '../../../store/modalSlice';
+import { useTranslation } from 'react-i18next';
 
 const Channels = ({ channels, handleChannelId, currentId }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleDataModal = (data) => {
     dispatch(open(data));
@@ -74,7 +76,9 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
                 id="dropdown-split-basic"
                 title={name}
               >
-                <span className="visually-hidden">Управление каналом</span>
+                <span className="visually-hidden">
+                  {t('channels.manageChannel')}
+                </span>
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
@@ -87,7 +91,7 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
                   }
                   href="#"
                 >
-                  Удалить
+                  {t('channels.deleteChannel')}
                 </Dropdown.Item>
                 <Dropdown.Item
                   onClick={() =>
@@ -99,7 +103,7 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
                   }
                   href="#"
                 >
-                  Переименовать
+                  {t('channels.renameChannel')}
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -121,7 +125,7 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('channels.title')}</b>
         <button
           type="button"
           onClick={() =>
