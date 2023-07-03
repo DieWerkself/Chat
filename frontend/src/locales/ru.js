@@ -51,7 +51,7 @@ const ruLocal = {
     },
     notify: {
       addChannel: 'Канал создан',
-      deleteChannel: 'Канал удален',
+      deleteChannel: 'Канал удалён',
       renameChannel: 'Канал переименован',
       login: 'Успешный вход!',
       registration: 'Успешная регистрация!',
