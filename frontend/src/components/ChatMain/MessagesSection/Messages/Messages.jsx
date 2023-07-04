@@ -13,7 +13,8 @@ const Messages = ({ currentChannelChat }) => {
         >
           <div className="text-break mb-2">
             <b>{username}</b>
-            : {filter.clean(message)}
+            :&nbsp;
+            {filter.clean(message)}
           </div>
         </div>
       ))}

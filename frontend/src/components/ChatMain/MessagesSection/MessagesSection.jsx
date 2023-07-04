@@ -1,17 +1,17 @@
 import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../Providers/SocketProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import Messages from './Messages/Messages';
 import MessageInputField from './MessageInputField/MessageInputField';
 import Modal from '../../Modal/Modal';
-import { useTranslation } from 'react-i18next';
 
 const MessagesSection = ({ messages, channels, currentChannelId }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const { t } = useTranslation();
   const { addNewMessage } = useContext(SocketContext);
   const currentChannelChat = messages.filter(
-    ({ channelId }) => channelId === currentChannelId
+    ({ channelId }) => channelId === currentChannelId,
   );
   const channel = channels.find(({ id }) => id === currentChannelId);
 
@@ -21,7 +21,7 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    const username = JSON.parse(localStorage.user).username;
+    const { username } = JSON.parse(localStorage.user);
     addNewMessage(currentMessage, username, currentChannelId);
     setCurrentMessage('');
   };
@@ -31,7 +31,10 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b># {channel.name}</b>
+            <b>
+              #&nbsp;
+              {channel.name}
+            </b>
           </p>
           <span className="text-muted">
             {t('messages.message', { count: currentChannelChat.length })}

@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
@@ -18,6 +21,7 @@ const AuthTabsWrap = (Component) => function HOC() {
 
   const activeSignupTab = cn({
     'nav-item': true,
+
     active: authPage === 'signup',
   });
 

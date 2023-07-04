@@ -13,7 +13,7 @@ export const SocketContext = createContext();
 const SocketProvider = ({ socket, children }) => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector(
-    (state) => state.channels.currentChannelId
+    (state) => state.channels.currentChannelId,
   );
 
   socket.on('newMessage', (message) => {
@@ -34,7 +34,7 @@ const SocketProvider = ({ socket, children }) => {
 
   socket.on('renameChannel', (channel) => {
     dispatch(
-      updateChannel({ id: channel.id, changes: { name: channel.name } })
+      updateChannel({ id: channel.id, changes: { name: channel.name } }),
     );
   });
 
@@ -60,7 +60,9 @@ const SocketProvider = ({ socket, children }) => {
 
   return (
     <SocketContext.Provider
-      value={{ addNewMessage, addNewChannel, deleteChannel, renameChannel }}
+      value={{
+        addNewMessage, addNewChannel, deleteChannel, renameChannel,
+      }}
     >
       {children}
     </SocketContext.Provider>

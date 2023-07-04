@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { CirclesWithBar } from 'react-loader-spinner';
 import axios from 'axios';
@@ -11,29 +13,29 @@ import { addMessages, messagesSelector } from '../../store/messagesSlice';
 import Channels from './Channels/Channels';
 import Chat from './MessagesSection/MessagesSection';
 import AuthRedirect from '../../wrapper/AuthRedirect';
-import { toast } from 'react-toastify';
 import apiRoutes from '../../routes/routes';
 
 const ChatMain = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const channels = useSelector(channelsSelector.selectAll);
   const messages = useSelector(messagesSelector.selectAll);
   const currentChannelId = useSelector(
-    (state) => state.channels.currentChannelId
+    (state) => state.channels.currentChannelId,
   );
 
   useEffect(() => {
     const getData = async () => {
-      const token = JSON.parse(localStorage.user).token;
+      const { token } = JSON.parse(localStorage.user);
       try {
         const response = await axios.get(apiRoutes.dataPath(), {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const { channels, messages, currentChannelId } = response.data;
-        dispatch(addChannels(channels));
-        dispatch(addMessages(messages));
-        dispatch(setActiveChannelId(currentChannelId));
+        const { data } = response;
+        dispatch(addChannels(data.channels));
+        dispatch(addMessages(data.messages));
+        dispatch(setActiveChannelId(data.currentChannelId));
         setIsLoading(false);
       } catch (error) {
         if (error.isAxiosError) {
@@ -42,7 +44,7 @@ const ChatMain = () => {
       }
     };
     getData();
-  }, []);
+  }, [dispatch, t]);
 
   const handleActiveChannelId = (id) => {
     dispatch(setActiveChannelId(id));
@@ -58,7 +60,7 @@ const ChatMain = () => {
             color="#4fa94d"
             wrapperStyle={{}}
             wrapperClass=""
-            visible={true}
+            visible
             outerCircleColor=""
             innerCircleColor=""
             barColor=""

@@ -1,6 +1,7 @@
+/* eslint-disable no-param-reassign */
+
 import { createSlice } from '@reduxjs/toolkit';
 
-// Начальное значение
 const initialState = {
   isModalShow: false,
   data: {},

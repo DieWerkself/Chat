@@ -29,7 +29,7 @@ const OpenModal = () => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      {isModalShow && <CurrentModal {...data} onHide={onHide} />}
+      {isModalShow && <CurrentModal id={data.id} name={data.name} onHide={onHide} />}
     </Modal>
   );
 };
