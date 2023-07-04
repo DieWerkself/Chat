@@ -21,7 +21,6 @@ const AuthTabsWrap = (Component) => function HOC() {
 
   const activeSignupTab = cn({
     'nav-item': true,
-
     active: authPage === 'signup',
   });
 
