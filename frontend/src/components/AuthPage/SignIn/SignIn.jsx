@@ -6,14 +6,14 @@ import { Button, Form, Card } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import AuthWrap from '../../../wrapper/AuthTabsWrap';
+import AuthWrap from '../../../wrapper/TabsAuthWrap';
 import { AuthContext } from '../../Providers/AuthProvider';
-import apiRoutes from '../../../routes/routes';
+import { apiRoutes, links } from '../../../routes/routes';
 
 const SignIn = () => {
   const [isAuthFailed, setAuthFailed] = useState(false);
   const [sendingForm, setSendingForm] = useState(false);
-  const { setAuthUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -33,11 +33,10 @@ const SignIn = () => {
       try {
         const response = await axios.post(apiRoutes.loginPath(), data);
         const { token, username } = response.data;
-        localStorage.setItem('user', JSON.stringify({ token, username }));
+        setUser(token, username);
         toast.success(t('notify.login'));
         setAuthFailed(false);
-        setAuthUser(true);
-        navigate('/');
+        navigate(links.main());
       } catch (error) {
         if (error.isAxiosError && error.response.status !== 401) {
           toast.error(t('notify.networkError'));

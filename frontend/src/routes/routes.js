@@ -4,4 +4,10 @@ const apiRoutes = {
   dataPath: () => '/api/v1/data',
 };
 
-export default apiRoutes;
+const links = {
+  main: () => '/',
+  login: () => '/login',
+  signup: () => '/signup',
+};
+
+export { apiRoutes, links };

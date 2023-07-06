@@ -5,10 +5,11 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { links } from '../routes/routes';
 
 const currentPage = window.location.pathname.substring(1);
 
-const AuthTabsWrap = (Component) => function HOC() {
+const TabsAuthWrap = (Component) => function HOC() {
   const [authPage, setAuthPage] = useState(currentPage);
   const { t } = useTranslation();
 
@@ -30,7 +31,7 @@ const AuthTabsWrap = (Component) => function HOC() {
         <div className="col-12 col-md-8 col-xxl-6">
           <ul className="nav nav-tabs nav-fill">
             <li onClick={handlerActivePage} className={activeLoginTab}>
-              <NavLink className="nav-link" id="login" to="/login">
+              <NavLink className="nav-link" id="login" to={links.login()}>
                 {t('loginForm.title')}
               </NavLink>
             </li>
@@ -39,7 +40,7 @@ const AuthTabsWrap = (Component) => function HOC() {
                 onClick={handlerActivePage}
                 className="nav-link"
                 id="signup"
-                to="/signup"
+                to={links.signup()}
               >
                 {t('registerForm.title')}
               </NavLink>
@@ -52,4 +53,4 @@ const AuthTabsWrap = (Component) => function HOC() {
   );
 };
 
-export default AuthTabsWrap;
+export default TabsAuthWrap;

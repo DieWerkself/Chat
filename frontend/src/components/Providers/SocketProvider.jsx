@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMessage } from '../../store/messagesSlice';
 import {
@@ -16,27 +16,60 @@ const SocketProvider = ({ socket, children }) => {
     (state) => state.channels.currentChannelId,
   );
 
-  socket.on('newMessage', (message) => {
-    dispatch(addMessage(message));
-  });
+  // socket.on('newMessage', (message) => {
+  //   dispatch(addMessage(message));
+  // });
 
-  socket.on('newChannel', (channel) => {
-    dispatch(addChannel(channel));
-  });
+  // socket.on('newChannel', (channel) => {
+  //   dispatch(addChannel(channel));
+  // });
 
-  socket.on('removeChannel', (id) => {
-    dispatch(removeChannel(id));
-    if (id.id === currentChannelId) {
-      console.log('test');
-      dispatch(setActiveChannelId(1));
-    }
-  });
+  // socket.on('removeChannel', (id) => {
+  //   dispatch(removeChannel(id));
+  //   if (id.id === currentChannelId) {
+  //     dispatch(setActiveChannelId(1));
+  //   }
+  // });
 
-  socket.on('renameChannel', (channel) => {
-    dispatch(
-      updateChannel({ id: channel.id, changes: { name: channel.name } }),
-    );
-  });
+  // socket.on('renameChannel', (channel) => {
+  //   dispatch(
+  //     updateChannel({ id: channel.id, changes: { name: channel.name } }),
+  //   );
+  // });
+
+  useEffect(() => {
+    const onNewMessage = (message) => {
+      dispatch(addMessage(message));
+    };
+
+    const onNewChannel = (channel) => {
+      dispatch(addChannel(channel));
+    };
+
+    const onRemoveChannel = (id) => {
+      dispatch(removeChannel(id));
+      if (id.id === currentChannelId) {
+        dispatch(setActiveChannelId(1));
+      }
+    };
+
+    const onRenameChannel = (channel) => {
+      dispatch(
+        updateChannel({ id: channel.id, changes: { name: channel.name } }),
+      );
+    };
+
+    socket.on('newMessage', onNewMessage);
+    socket.on('newChannel', onNewChannel);
+    socket.on('removeChannel', onRemoveChannel);
+    socket.on('renameChannel', onRenameChannel);
+    return () => {
+      socket.off('newMessage', onNewMessage);
+      socket.off('newChannel', onNewChannel);
+      socket.off('removeChannel', onRemoveChannel);
+      socket.off('renameChannel', onRenameChannel);
+    };
+  }, []);
 
   const addNewMessage = (message, username, channelId) => {
     socket.emit('newMessage', { message, username, channelId });

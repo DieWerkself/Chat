@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../Providers/SocketProvider';
+import { AuthContext } from '../../Providers/AuthProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import Messages from './Messages/Messages';
 import MessageInputField from './MessageInputField/MessageInputField';
@@ -8,8 +9,9 @@ import Modal from '../../Modal/Modal';
 
 const MessagesSection = ({ messages, channels, currentChannelId }) => {
   const [currentMessage, setCurrentMessage] = useState('');
-  const { t } = useTranslation();
   const { addNewMessage } = useContext(SocketContext);
+  const { localData } = useContext(AuthContext);
+  const { t } = useTranslation();
   const currentChannelChat = messages.filter(
     ({ channelId }) => channelId === currentChannelId,
   );
@@ -21,8 +23,7 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    const { username } = JSON.parse(localStorage.user);
-    addNewMessage(currentMessage, username, currentChannelId);
+    addNewMessage(currentMessage, localData.getUsername(), currentChannelId);
     setCurrentMessage('');
   };
 

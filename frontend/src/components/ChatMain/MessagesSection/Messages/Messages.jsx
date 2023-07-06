@@ -5,7 +5,7 @@ const Messages = ({ currentChannelChat }) => {
   filter.loadDictionary();
   return (
     <>
-      {currentChannelChat.map(({ message, id, username }) => (
+      {currentChannelChat.sort((a, b) => b.id - a.id).map(({ message, id, username }) => (
         <div
           key={id}
           id="messages-box"

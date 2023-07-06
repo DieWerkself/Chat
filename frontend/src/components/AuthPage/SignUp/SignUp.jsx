@@ -7,13 +7,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { AuthContext } from '../../Providers/AuthProvider';
-import AuthWrap from '../../../wrapper/AuthTabsWrap';
-import apiRoutes from '../../../routes/routes';
+import AuthWrap from '../../../wrapper/TabsAuthWrap';
+import { apiRoutes, links } from '../../../routes/routes';
 
 const SignUp = () => {
   const [isUserExist, setIsUserExist] = useState(false);
   const [sendingForm, setSendingForm] = useState(false);
-  const { setAuthUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -44,10 +44,9 @@ const SignUp = () => {
       try {
         const response = await axios.post(apiRoutes.signupPath(), data);
         const { token, username } = response.data;
-        localStorage.setItem('user', JSON.stringify({ token, username }));
+        setUser(token, username);
         toast.success(t('notify.registration'));
-        setAuthUser(true);
-        navigate('/');
+        navigate(links.main());
       } catch (error) {
         setSendingForm(false);
         if (error.response.status === 409) {

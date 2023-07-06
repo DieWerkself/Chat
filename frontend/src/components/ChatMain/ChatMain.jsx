@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,14 +10,16 @@ import {
   setActiveChannelId,
 } from '../../store/channelsSlice';
 import { addMessages, messagesSelector } from '../../store/messagesSlice';
+import { AuthContext } from '../Providers/AuthProvider';
 import Channels from './Channels/Channels';
 import Chat from './MessagesSection/MessagesSection';
 import AuthRedirect from '../../wrapper/AuthRedirect';
-import apiRoutes from '../../routes/routes';
+import { apiRoutes } from '../../routes/routes';
 
 const ChatMain = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const { localData } = useContext(AuthContext);
   const { t } = useTranslation();
   const channels = useSelector(channelsSelector.selectAll);
   const messages = useSelector(messagesSelector.selectAll);
@@ -27,10 +29,9 @@ const ChatMain = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const { token } = JSON.parse(localStorage.user);
       try {
         const response = await axios.get(apiRoutes.dataPath(), {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${localData.getToken()}` },
         });
         const { data } = response;
         dispatch(addChannels(data.channels));

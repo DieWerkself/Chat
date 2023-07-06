@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { links } from '../../routes/routes';
 
 const PageNotFound = () => {
   const { t } = useTranslation();
@@ -14,7 +15,7 @@ const PageNotFound = () => {
       <h1 className="h4 text-muted">{t('pageNotFound.title')}</h1>
       <p className="text-muted">
         {t('pageNotFound.variant')}
-        <NavLink to="/">{t('pageNotFound.mainPage')}</NavLink>
+        <NavLink to={links.main()}>{t('pageNotFound.mainPage')}</NavLink>
       </p>
     </div>
   );
