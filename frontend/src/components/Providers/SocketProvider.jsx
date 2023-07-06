@@ -16,27 +16,6 @@ const SocketProvider = ({ socket, children }) => {
     (state) => state.channels.currentChannelId,
   );
 
-  // socket.on('newMessage', (message) => {
-  //   dispatch(addMessage(message));
-  // });
-
-  // socket.on('newChannel', (channel) => {
-  //   dispatch(addChannel(channel));
-  // });
-
-  // socket.on('removeChannel', (id) => {
-  //   dispatch(removeChannel(id));
-  //   if (id.id === currentChannelId) {
-  //     dispatch(setActiveChannelId(1));
-  //   }
-  // });
-
-  // socket.on('renameChannel', (channel) => {
-  //   dispatch(
-  //     updateChannel({ id: channel.id, changes: { name: channel.name } }),
-  //   );
-  // });
-
   useEffect(() => {
     const onNewMessage = (message) => {
       dispatch(addMessage(message));
@@ -48,6 +27,7 @@ const SocketProvider = ({ socket, children }) => {
 
     const onRemoveChannel = (id) => {
       dispatch(removeChannel(id));
+      console.log(id.id, currentChannelId);
       if (id.id === currentChannelId) {
         dispatch(setActiveChannelId(1));
       }
@@ -69,7 +49,7 @@ const SocketProvider = ({ socket, children }) => {
       socket.off('removeChannel', onRemoveChannel);
       socket.off('renameChannel', onRenameChannel);
     };
-  }, []);
+  }, [currentChannelId]);
 
   const addNewMessage = (message, username, channelId) => {
     socket.emit('newMessage', { message, username, channelId });

@@ -75,7 +75,7 @@ const ModalAddChannel = ({ onHide }) => {
                 formik.errors.name && formik.touched.name
               }
             />
-            <Form.Label class="visually-hidden" htmlFor="name">
+            <Form.Label className="visually-hidden" htmlFor="name">
               {t('modals.name')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">

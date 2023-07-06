@@ -72,7 +72,7 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
                 formik.errors.channelName && formik.touched.channelName
               }
             />
-            <Form.Label class="visually-hidden" htmlFor="channelName">
+            <Form.Label className="visually-hidden" htmlFor="channelName">
               {t('modals.name')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">
