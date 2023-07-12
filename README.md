@@ -54,8 +54,6 @@ make start
 ```
 Some Features:
 
-https://github.com/DieWerkself/frontend-project-12/tree/main/frontend/src
-
 ### Register page
 #### All fields are validated for correct input
 <img src='https://github.com/DieWerkself/frontend-project-12/blob/main/frontend/image/RegisterPage.png'>
