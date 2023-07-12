@@ -5,7 +5,7 @@ import { AuthContext } from '../Providers/AuthProvider';
 import { links } from '../../routes/routes';
 
 const Navbar = () => {
-  const { isUserAuth, logoutUser } = useContext(AuthContext);
+  const { user, logoutUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -19,7 +19,7 @@ const Navbar = () => {
         <NavLink className="navbar-brand" to={links.main()}>
           {t('navbar.title')}
         </NavLink>
-        {isUserAuth() && (
+        {user && (
           <button
             type="button"
             onClick={handleLogout}

@@ -27,10 +27,6 @@ const SocketProvider = ({ socket, children }) => {
 
     const onRemoveChannel = (id) => {
       dispatch(removeChannel(id));
-      console.log(id.id, currentChannelId);
-      if (id.id === currentChannelId) {
-        dispatch(setActiveChannelId(1));
-      }
     };
 
     const onRenameChannel = (channel) => {
@@ -51,8 +47,10 @@ const SocketProvider = ({ socket, children }) => {
     };
   }, [currentChannelId]);
 
-  const addNewMessage = (message, username, channelId) => {
-    socket.emit('newMessage', { message, username, channelId });
+  const addNewMessage = (message, username, channelId, date) => {
+    socket.emit('newMessage', {
+      message, username, channelId, date,
+    });
   };
 
   const addNewChannel = async (channelName) => {

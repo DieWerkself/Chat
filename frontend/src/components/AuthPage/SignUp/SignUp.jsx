@@ -13,7 +13,7 @@ import { apiRoutes, links } from '../../../routes/routes';
 const SignUp = () => {
   const [isUserExist, setIsUserExist] = useState(false);
   const [sendingForm, setSendingForm] = useState(false);
-  const { setUser } = useContext(AuthContext);
+  const { loginUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -44,7 +44,7 @@ const SignUp = () => {
       try {
         const response = await axios.post(apiRoutes.signupPath(), data);
         const { token, username } = response.data;
-        setUser(token, username);
+        loginUser(token, username);
         toast.success(t('notify.registration'));
         navigate(links.main());
       } catch (error) {

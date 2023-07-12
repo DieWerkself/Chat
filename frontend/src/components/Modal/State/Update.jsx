@@ -23,10 +23,10 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
 
   const renameChannelSchema = Yup.object().shape({
     channelName: Yup.string()
-      .required('errors.required')
+      .required(t('errors.required'))
       .notOneOf(channels.map((channel) => channel.name), t('errors.uniqueChannel'))
-      .min(3, 'errors.rangeLetter')
-      .max(20, 'errors.rangeLetter'),
+      .min(3, t('errors.range'))
+      .max(20, t('errors.range')),
   });
 
   const formik = useFormik({

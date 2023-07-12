@@ -13,7 +13,7 @@ import { apiRoutes, links } from '../../../routes/routes';
 const SignIn = () => {
   const [isAuthFailed, setAuthFailed] = useState(false);
   const [sendingForm, setSendingForm] = useState(false);
-  const { setUser } = useContext(AuthContext);
+  const { loginUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -33,7 +33,7 @@ const SignIn = () => {
       try {
         const response = await axios.post(apiRoutes.loginPath(), data);
         const { token, username } = response.data;
-        setUser(token, username);
+        loginUser(token, username);
         toast.success(t('notify.login'));
         setAuthFailed(false);
         navigate(links.main());
@@ -57,12 +57,13 @@ const SignIn = () => {
               name="username"
               type="login"
               id="username"
+              autoComplete="username"
               className="form-control"
               placeholder={t('loginForm.login')}
               onChange={formik.handleChange}
               value={formik.values.username}
               isInvalid={isAuthFailed}
-              autoComplete="username"
+              required
               autoFocus
             />
             <Form.Label htmlFor="username">{t('loginForm.login')}</Form.Label>
@@ -71,13 +72,14 @@ const SignIn = () => {
             <Form.Control
               name="password"
               type="password"
+              autoComplete="current-password"
               id="password"
               className="form-control"
               placeholder={t('loginForm.password')}
               onChange={formik.handleChange}
               value={formik.values.password}
               isInvalid={isAuthFailed}
-              autoComplete="current-password"
+              required
             />
             <Form.Label htmlFor="password">
               {t('loginForm.password')}

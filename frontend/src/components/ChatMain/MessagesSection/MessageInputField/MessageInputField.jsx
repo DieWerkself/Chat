@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowSvg } from '../../../../UI/svg';
+import { ReactSVG } from 'react-svg';
+import Arrow from '../../../../assets/ArrowIcon.svg';
 
 const MessageInputField = ({
   handlerSubmit,
@@ -25,7 +26,7 @@ const MessageInputField = ({
             className="btn btn-group-vertical border-0"
             disabled={currentMessage.trim().length === 0}
           >
-            {ArrowSvg}
+            <ReactSVG src={Arrow} />
             <span className="visually-hidden">{t('messages.send')}</span>
           </button>
         </div>

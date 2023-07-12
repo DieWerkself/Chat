@@ -19,7 +19,7 @@ import { apiRoutes } from '../../routes/routes';
 const ChatMain = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const { localData } = useContext(AuthContext);
+  const { userData } = useContext(AuthContext);
   const { t } = useTranslation();
   const channels = useSelector(channelsSelector.selectAll);
   const messages = useSelector(messagesSelector.selectAll);
@@ -31,7 +31,7 @@ const ChatMain = () => {
     const getData = async () => {
       try {
         const response = await axios.get(apiRoutes.dataPath(), {
-          headers: { Authorization: `Bearer ${localData.getToken()}` },
+          headers: { Authorization: `Bearer ${userData.getToken()}` },
         });
         const { data } = response;
         dispatch(addChannels(data.channels));

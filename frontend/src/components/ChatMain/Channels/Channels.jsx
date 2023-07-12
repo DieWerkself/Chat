@@ -5,8 +5,9 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
+import { ReactSVG } from 'react-svg';
 import { open } from '../../../store/modalSlice';
-import { PlusSvg } from '../../../UI/svg';
+import Plus from '../../../assets/PlusIcon.svg';
 
 const Channels = ({ channels, handleChannelId, currentId }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
       .map(({ id, name }) => {
         const channelButtonStyles = cn({
           'w-100': true,
-          'rounded-0': true,
+          rounded: true,
           'text-start': true,
           btn: true,
           'btn-secondary': currentId === id,
@@ -47,7 +48,7 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
       .map(({ id, name }) => {
         const channelButtonStyles = cn({
           'w-100': true,
-          'rounded-0': true,
+          'rounded-start': true,
           'text-start': true,
           'text-truncate': true,
           'btn-secondary': currentId === id,
@@ -121,7 +122,7 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
           onClick={() => handleDataModal({ modalName: 'add' })}
           className="p-0 text-primary btn btn-group-vertical"
         >
-          {PlusSvg}
+          <ReactSVG src={Plus} />
           <span className="visually-hidden">+</span>
         </button>
       </div>

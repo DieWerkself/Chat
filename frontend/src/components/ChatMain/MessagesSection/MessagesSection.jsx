@@ -10,7 +10,7 @@ import Modal from '../../Modal/Modal';
 const MessagesSection = ({ messages, channels, currentChannelId }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const { addNewMessage } = useContext(SocketContext);
-  const { localData } = useContext(AuthContext);
+  const { userData } = useContext(AuthContext);
   const { t } = useTranslation();
   const currentChannelChat = messages.filter(
     ({ channelId }) => channelId === currentChannelId,
@@ -23,7 +23,12 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    addNewMessage(currentMessage, localData.getUsername(), currentChannelId);
+    addNewMessage(
+      currentMessage,
+      userData.getUsername(),
+      currentChannelId,
+      new Date().toISOString(),
+    );
     setCurrentMessage('');
   };
 
@@ -42,7 +47,10 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          <Messages currentChannelChat={currentChannelChat} />
+          <Messages
+            currentChannelChat={currentChannelChat}
+            authUsername={userData.getUsername()}
+          />
         </div>
         <MessageInputField
           handlerSubmit={handlerSubmit}

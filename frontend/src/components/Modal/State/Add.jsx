@@ -71,15 +71,13 @@ const ModalAddChannel = ({ onHide }) => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.name}
-              isInvalid={
-                formik.errors.name && formik.touched.name
-              }
+              isInvalid={formik.errors.name && formik.touched.name}
             />
             <Form.Label className="visually-hidden" htmlFor="name">
               {t('modals.name')}
             </Form.Label>
             <Form.Control.Feedback type="invalid">
-              {formik.errors.channelName}
+              {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button className="me-2" variant="secondary" onClick={onHide}>

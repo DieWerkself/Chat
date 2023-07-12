@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../components/Providers/AuthProvider';
+import { links } from '../routes/routes';
 
 const AuthRedirect = (Component) => function HOC() {
-  const { isUserAuth } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
-    <>{!isUserAuth() ? <Navigate replace to="/login" /> : <Component />}</>
+    <>{!user ? <Navigate replace to={links.login()} /> : <Component />}</>
   );
 };
 
