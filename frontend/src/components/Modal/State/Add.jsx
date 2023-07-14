@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
@@ -8,12 +8,13 @@ import Form from 'react-bootstrap/Form';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { channelsSelector } from '../../../store/channelsSlice';
+import { addChannel, channelsSelector, setActiveChannelId } from '../../../store/channelsSlice';
 import { SocketContext } from '../../Providers/SocketProvider';
 
 const ModalAddChannel = ({ onHide }) => {
   const { addNewChannel } = useContext(SocketContext);
   const channels = useSelector(channelsSelector.selectAll);
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const inputRef = useRef();
 
@@ -41,7 +42,10 @@ const ModalAddChannel = ({ onHide }) => {
     validateOnChange: false,
     onSubmit: (data) => {
       try {
-        addNewChannel(data.name);
+        addNewChannel(data.name, (responseData) => {
+          dispatch(addChannel(responseData));
+          dispatch(setActiveChannelId(responseData.id));
+        });
         formik.resetForm();
         toast.success(t('notify.addChannel'));
         onHide();

@@ -8,7 +8,6 @@ const Messages = ({ currentChannelChat, authUsername }) => {
   useEffect(() => {
     scrollToLastEl.current.scrollIntoView({ behavior: 'smooth' });
   }, [currentChannelChat]);
-  filter.loadDictionary();
   return (
     <>
       {currentChannelChat.map(({
@@ -27,14 +26,12 @@ const Messages = ({ currentChannelChat, authUsername }) => {
           'bg-secondary-subtle': username !== authUsername,
         });
 
-        const [hours, minutes] = new Date(date).toLocaleString().split(' ')[1].split(':');
+        const time = new Date(date).toLocaleString();
 
         return (
           <div key={id} id="messages-box" className={colors}>
             <div className="ps-1" style={{ fontSize: '0.7rem' }}>
-              {hours}
-              :
-              {minutes}
+              {time}
             </div>
             <div className="text-break px-2 pb-2">
               <b>{username}</b>

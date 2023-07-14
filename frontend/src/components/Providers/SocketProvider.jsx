@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addMessage } from '../../store/messagesSlice';
 import {
   addChannel,
-  setActiveChannelId,
   removeChannel,
   updateChannel,
 } from '../../store/channelsSlice';
@@ -47,26 +46,24 @@ const SocketProvider = ({ socket, children }) => {
     };
   }, [currentChannelId]);
 
-  const addNewMessage = (message, username, channelId, date) => {
-    socket.emit('newMessage', {
+  const addNewMessage = async (message, username, channelId, date) => {
+    await socket.emit('newMessage', {
       message, username, channelId, date,
     });
   };
 
-  const addNewChannel = async (channelName) => {
-    const { data } = await socket.emitWithAck('newChannel', {
-      name: channelName,
-    });
-    dispatch(addChannel(data));
-    dispatch(setActiveChannelId(data.id));
+  const addNewChannel = (name, callback) => {
+    socket.emit('newChannel', {
+      name,
+    }, ({ data }) => { callback(data); });
   };
 
-  const deleteChannel = (id) => {
-    socket.emit('removeChannel', { id });
+  const deleteChannel = async (id) => {
+    await socket.emit('removeChannel', { id });
   };
 
-  const renameChannel = (id, name) => {
-    socket.emit('renameChannel', { id, name });
+  const renameChannel = async (id, name) => {
+    await socket.emit('renameChannel', { id, name });
   };
 
   return (

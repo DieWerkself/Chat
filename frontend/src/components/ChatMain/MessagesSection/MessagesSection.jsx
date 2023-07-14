@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { SocketContext } from '../../Providers/SocketProvider';
 import { AuthContext } from '../../Providers/AuthProvider';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,7 +40,7 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
           <p className="m-0">
             <b>
               #&nbsp;
-              {channel.name}
+              {filter.clean(channel.name)}
             </b>
           </p>
           <span className="text-muted">

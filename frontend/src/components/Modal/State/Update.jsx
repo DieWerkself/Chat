@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
+import filter from 'leo-profanity';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -31,7 +32,7 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
 
   const formik = useFormik({
     initialValues: {
-      channelName: name,
+      channelName: filter.clean(name),
     },
     validationSchema: renameChannelSchema,
     validateOnBlur: false,

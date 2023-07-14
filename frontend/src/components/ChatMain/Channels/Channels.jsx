@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
+import filter from 'leo-profanity';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import { ReactSVG } from 'react-svg';
@@ -68,7 +69,7 @@ const Channels = ({ channels, handleChannelId, currentId }) => {
             >
               <Button variant="" className={channelButtonStyles}>
                 <span className="me-1">#</span>
-                {name}
+                {filter.clean(name)}
               </Button>
 
               <Dropdown.Toggle

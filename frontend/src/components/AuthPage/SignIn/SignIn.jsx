@@ -31,6 +31,7 @@ const SignIn = () => {
     onSubmit: async (data) => {
       setSendingForm(true);
       try {
+        console.log(typeof data);
         const response = await axios.post(apiRoutes.loginPath(), data);
         const { token, username } = response.data;
         loginUser(token, username);
