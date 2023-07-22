@@ -56,20 +56,21 @@ Some Features:
 
 ### Register page
 #### All fields are validated for correct input
-<img src='https://github.com/DieWerkself/frontend-project-12/blob/main/frontend/image/RegisterPage.png'>
+<img src='https://github.com/DieWerkself/frontend-project-12/assets/71588929/7d1ed17e-e34f-4949-84a0-e1396b2090d2'>
 
 ### Add Channel
 #### You can add a channel. There is validation for the uniqueness of the name and the correctness of the input
-<img src='https://github.com/DieWerkself/frontend-project-12/blob/main/frontend/image/AddChannel.png'>
+<img src='https://github.com/DieWerkself/frontend-project-12/assets/71588929/00379ea8-42bd-40ae-a78b-610d8aeb6a69'>
 
 ### Rename Channel
 #### You can rename a channel. There is validation for the uniqueness of the name and the correctness of the input
-<img src=https://github.com/DieWerkself/frontend-project-12/blob/main/frontend/image/RenameChannel.png>
+<img src='https://github.com/DieWerkself/frontend-project-12/assets/71588929/68325f10-81bf-4bcc-bf5d-253d4359cf63'>
 
 ### Delete Channel
 #### You can delete a channel.
-<img src=https://github.com/DieWerkself/frontend-project-12/blob/main/frontend/image/DeleteChannel.png>
+<img src='https://github.com/DieWerkself/frontend-project-12/assets/71588929/84f015f2-20ab-454c-a4e0-0b3626709d75'>
+
 
 ### Message color difference
 #### The color of messages differs depending on who wrote the message. Options: you and everyone else.
-<img src=https://github.com/DieWerkself/frontend-project-12/blob/main/frontend/image/MainScreen.png>
+<img src='https://github.com/DieWerkself/frontend-project-12/assets/71588929/f525eefc-e239-4c21-bd0c-e31443c1ff71'>
