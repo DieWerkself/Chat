@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import { SocketContext } from '../../Providers/SocketProvider';
 import { AuthContext } from '../../Providers/AuthProvider';
@@ -29,6 +30,11 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
       userData.getUsername(),
       currentChannelId,
       new Date().toISOString(),
+      (responseData) => {
+        if (responseData === 'error') {
+          toast.error(t('notify.networkError'));
+        }
+      },
     );
     setCurrentMessage('');
   };

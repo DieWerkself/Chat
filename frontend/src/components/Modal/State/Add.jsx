@@ -43,12 +43,16 @@ const ModalAddChannel = ({ onHide }) => {
     onSubmit: (data) => {
       try {
         addNewChannel(data.name, (responseData) => {
-          dispatch(addChannel(responseData));
-          dispatch(setActiveChannelId(responseData.id));
+          if (responseData === 'error') {
+            toast.error(t('notify.networkError'));
+          } else {
+            dispatch(addChannel(responseData));
+            dispatch(setActiveChannelId(responseData.id));
+            toast.success(t('notify.addChannel'));
+          }
+          formik.resetForm();
+          onHide();
         });
-        formik.resetForm();
-        toast.success(t('notify.addChannel'));
-        onHide();
       } catch (error) {
         if (error.isAxiosError) {
           toast.error(t('notify.networkError'));

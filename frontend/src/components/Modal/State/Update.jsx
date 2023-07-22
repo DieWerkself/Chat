@@ -39,8 +39,13 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
     validateOnChange: false,
     onSubmit: (data) => {
       try {
-        renameChannel(id, data.channelName);
-        toast.success(t('notify.renameChannel'));
+        renameChannel(id, data.channelName, (responseData) => {
+          if (responseData === 'error') {
+            toast.error(t('notify.networkError'));
+          } else {
+            toast.success(t('notify.renameChannel'));
+          }
+        });
         onHide();
       } catch (error) {
         if (error.isAxiosError) {

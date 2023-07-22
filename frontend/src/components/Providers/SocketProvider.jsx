@@ -46,30 +46,68 @@ const SocketProvider = ({ socket, children }) => {
     };
   }, [currentChannelId]);
 
-  const addNewMessage = async (message, username, channelId, date) => {
-    await socket.emit('newMessage', {
-      message, username, channelId, date,
-    });
+  const addNewMessage = (message, username, channelId, date, callback) => {
+    socket.timeout(5000).emit(
+      'newMessage',
+      {
+        message,
+        username,
+        channelId,
+        date,
+      },
+      (err) => {
+        if (err) {
+          callback('error');
+        } else {
+          callback();
+        }
+      },
+    );
   };
 
   const addNewChannel = (name, callback) => {
-    socket.emit('newChannel', {
-      name,
-    }, ({ data }) => { callback(data); });
+    socket.timeout(5000).emit(
+      'newChannel',
+      {
+        name,
+      },
+      (err, response) => {
+        if (err) {
+          callback('error');
+        } else {
+          callback(response.data);
+        }
+      },
+    );
   };
 
-  const deleteChannel = async (id) => {
-    await socket.emit('removeChannel', { id });
+  const deleteChannel = (id, callback) => {
+    socket.timeout(5000).emit('removeChannel', { id }, (err) => {
+      if (err) {
+        callback('error');
+      } else {
+        callback();
+      }
+    });
   };
 
-  const renameChannel = async (id, name) => {
-    await socket.emit('renameChannel', { id, name });
+  const renameChannel = (id, name, callback) => {
+    socket.timeout(5000).emit('renameChannel', { id, name }, (err) => {
+      if (err) {
+        callback('error');
+      } else {
+        callback();
+      }
+    });
   };
 
   return (
     <SocketContext.Provider
       value={{
-        addNewMessage, addNewChannel, deleteChannel, renameChannel,
+        addNewMessage,
+        addNewChannel,
+        deleteChannel,
+        renameChannel,
       }}
     >
       {children}

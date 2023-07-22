@@ -12,8 +12,13 @@ const ModalDeleteChannel = ({ id, onHide }) => {
 
   const handlerDeleteChannel = () => {
     try {
-      deleteChannel(id);
-      toast.success(t('notify.deleteChannel'));
+      deleteChannel(id, (responseData) => {
+        if (responseData === 'error') {
+          toast.error(t('notify.networkError'));
+        } else {
+          toast.success(t('notify.deleteChannel'));
+        }
+      });
       onHide();
     } catch (error) {
       if (error.isAxiosError) {
