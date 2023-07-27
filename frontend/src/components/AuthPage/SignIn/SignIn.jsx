@@ -31,7 +31,6 @@ const SignIn = () => {
     onSubmit: async (data) => {
       setSendingForm(true);
       try {
-        console.log(typeof data);
         const response = await axios.post(apiRoutes.loginPath(), data);
         const { token, username } = response.data;
         loginUser(token, username);
@@ -39,11 +38,12 @@ const SignIn = () => {
         setAuthFailed(false);
         navigate(links.main());
       } catch (error) {
-        if (error.isAxiosError && error.response.status !== 401) {
-          toast.error(t('notify.networkError'));
-        }
-        setAuthFailed(true);
         setSendingForm(false);
+        if (error.isAxiosError && error.response.status === 401) {
+          setAuthFailed(true);
+          return;
+        }
+        toast.error(t('notify.networkError'));
       }
     },
   });

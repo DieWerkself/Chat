@@ -55,6 +55,7 @@ const ruLocal = {
       renameChannel: 'Канал переименован',
       login: 'Успешный вход!',
       registration: 'Успешная регистрация!',
+      unauthorizedError: 'Ошибка при загрузке данных',
       networkError: 'Ошибка сети',
     },
     errors: {

@@ -13,13 +13,12 @@ import { addMessages, messagesSelector } from '../../store/messagesSlice';
 import { AuthContext } from '../Providers/AuthProvider';
 import Channels from './Channels/Channels';
 import Chat from './MessagesSection/MessagesSection';
-import AuthRedirect from '../../wrapper/AuthRedirect';
 import { apiRoutes } from '../../routes/routes';
 
 const ChatMain = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const { userData } = useContext(AuthContext);
+  const { userData, logoutUser } = useContext(AuthContext);
   const { t } = useTranslation();
   const channels = useSelector(channelsSelector.selectAll);
   const messages = useSelector(messagesSelector.selectAll);
@@ -39,9 +38,12 @@ const ChatMain = () => {
         dispatch(setActiveChannelId(data.currentChannelId));
         setIsLoading(false);
       } catch (error) {
-        if (error.isAxiosError) {
-          toast.error(t('notify.networkError'));
+        if (error.isAxiosError && error.response.status === 401) {
+          logoutUser();
+          toast.error(t('notify.unauthorizedError'));
+          return;
         }
+        toast.error(t('notify.networkError'));
       }
     };
     getData();
@@ -88,4 +90,4 @@ const ChatMain = () => {
   );
 };
 
-export default AuthRedirect(ChatMain);
+export default ChatMain;

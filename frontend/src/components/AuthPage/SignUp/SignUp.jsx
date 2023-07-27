@@ -39,8 +39,8 @@ const SignUp = () => {
     },
     validationSchema: registerSchema,
     onSubmit: async (data) => {
-      setIsUserExist(false);
       setSendingForm(true);
+      setIsUserExist(false);
       try {
         const response = await axios.post(apiRoutes.signupPath(), data);
         const { token, username } = response.data;
@@ -49,14 +49,11 @@ const SignUp = () => {
         navigate(links.main());
       } catch (error) {
         setSendingForm(false);
-        if (error.response.status === 409) {
+        if (error.isAxiosError && error.response.status === 409) {
           setIsUserExist(true);
           return;
         }
-
-        if (error.isAxiosError) {
-          toast.error(t('notify.networkError'));
-        }
+        toast.error(t('notify.networkError'));
       }
     },
   });
