@@ -5,24 +5,19 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import { SocketContext } from '../../Providers/SocketProvider';
+import promisify from '../../../utils/promisify';
 
 const ModalDeleteChannel = ({ id, onHide }) => {
   const { deleteChannel } = useContext(SocketContext);
   const { t } = useTranslation();
 
   const handlerDeleteChannel = () => {
-    try {
-      deleteChannel(id, (responseData) => {
-        if (responseData === 'error') {
-          toast.error(t('notify.networkError'));
-        } else {
-          toast.success(t('notify.deleteChannel'));
-        }
-      });
-      onHide();
-    } catch (error) {
-      toast.error(t('notify.networkError'));
-    }
+    const deletePromise = promisify(deleteChannel);
+
+    deletePromise(id)
+      .then(() => toast.success(t('notify.deleteChannel')))
+      .catch(() => toast.error(t('notify.networkError')))
+      .finally(() => onHide());
   };
 
   return (

@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { channelsSelector } from '../../../store/channelsSlice';
 import { SocketContext } from '../../Providers/SocketProvider';
+import promisify from '../../../utils/promisify';
 
 const ModalUpdateChannel = ({ id, name, onHide }) => {
   const { renameChannel } = useContext(SocketContext);
@@ -38,18 +39,12 @@ const ModalUpdateChannel = ({ id, name, onHide }) => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (data) => {
-      try {
-        renameChannel(id, data.channelName, (responseData) => {
-          if (responseData === 'error') {
-            toast.error(t('notify.networkError'));
-          } else {
-            toast.success(t('notify.renameChannel'));
-          }
-        });
-        onHide();
-      } catch (error) {
-        toast.error(t('notify.networkError'));
-      }
+      const renamePromise = promisify(renameChannel);
+
+      renamePromise(id, data.channelName)
+        .then(() => toast.success(t('notify.renameChannel')))
+        .catch(() => toast.error(t('notify.networkError')))
+        .finally(() => onHide());
     },
   });
 

@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { addChannel, channelsSelector, setActiveChannelId } from '../../../store/channelsSlice';
 import { SocketContext } from '../../Providers/SocketProvider';
+import promisify from '../../../utils/promisify';
 
 const ModalAddChannel = ({ onHide }) => {
   const { addNewChannel } = useContext(SocketContext);
@@ -41,21 +42,19 @@ const ModalAddChannel = ({ onHide }) => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (data) => {
-      try {
-        addNewChannel(data.name, (responseData) => {
-          if (responseData === 'error') {
-            toast.error(t('notify.networkError'));
-          } else {
-            dispatch(addChannel(responseData));
-            dispatch(setActiveChannelId(responseData.id));
-            toast.success(t('notify.addChannel'));
-          }
+      const addPromise = promisify(addNewChannel);
+
+      addPromise(data.name)
+        .then((responseData) => {
+          dispatch(addChannel(responseData));
+          dispatch(setActiveChannelId(responseData.id));
+          toast.success(t('notify.addChannel'));
+        })
+        .catch(() => toast.error(t('notify.networkError')))
+        .finally(() => {
           formik.resetForm();
           onHide();
         });
-      } catch (error) {
-        toast.error(t('notify.networkError'));
-      }
     },
   });
 

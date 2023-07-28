@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Messages from './Messages/Messages';
 import MessageInputField from './MessageInputField/MessageInputField';
 import Modal from '../../Modal/Modal';
+import promisify from '../../../utils/promisify';
 
 const MessagesSection = ({ messages, channels, currentChannelId }) => {
   const [currentMessage, setCurrentMessage] = useState('');
@@ -25,18 +26,20 @@ const MessagesSection = ({ messages, channels, currentChannelId }) => {
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    addNewMessage(
+
+    const addNewMessagePromise = promisify(addNewMessage);
+
+    addNewMessagePromise(
       currentMessage,
       userData.getUsername(),
       currentChannelId,
       new Date().toISOString(),
-      (responseData) => {
-        if (responseData === 'error') {
-          toast.error(t('notify.networkError'));
-        }
-      },
-    );
-    setCurrentMessage('');
+    )
+      .then(() => {})
+      .catch(() => toast.error(t('notify.networkError')))
+      .finally(() => {
+        setCurrentMessage('');
+      });
   };
 
   return (

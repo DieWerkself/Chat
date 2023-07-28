@@ -57,9 +57,9 @@ const SocketProvider = ({ socket, children }) => {
       },
       (err) => {
         if (err) {
-          callback('error');
+          callback(err);
         } else {
-          callback();
+          callback(null);
         }
       },
     );
@@ -73,9 +73,9 @@ const SocketProvider = ({ socket, children }) => {
       },
       (err, response) => {
         if (err) {
-          callback('error');
+          callback(err);
         } else {
-          callback(response.data);
+          callback(null, response.data);
         }
       },
     );
@@ -84,9 +84,9 @@ const SocketProvider = ({ socket, children }) => {
   const deleteChannel = (id, callback) => {
     socket.timeout(5000).emit('removeChannel', { id }, (err) => {
       if (err) {
-        callback('error');
+        callback(err);
       } else {
-        callback();
+        callback(null);
       }
     });
   };
@@ -94,9 +94,9 @@ const SocketProvider = ({ socket, children }) => {
   const renameChannel = (id, name, callback) => {
     socket.timeout(5000).emit('renameChannel', { id, name }, (err) => {
       if (err) {
-        callback('error');
+        callback(err);
       } else {
-        callback();
+        callback(null);
       }
     });
   };
