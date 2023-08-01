@@ -1,4 +1,4 @@
-# Hexlet Chat
+# Chat
 
 ### Hexlet tests and linter status:
 
@@ -12,7 +12,7 @@
 
 ## Description
 
-Hexlet Chat is a simplified version of Slack chat
+Chat is a simplified version of Slack chat
 
 ## Stack:
 
